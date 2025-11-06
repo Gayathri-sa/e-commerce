@@ -34,10 +34,7 @@ function App() {
 
   useEffect(() => {
     // Simulate initial loading (like fetching app config)
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500); // show loader for 1.5s
-
+    const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -46,21 +43,23 @@ function App() {
   return (
     <>
       <Routes>
-        {/* Customer Routes */}
+        {/* Standalone Pages (No Layout) */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Customer Pages with Layout */}
         <Route path="/" element={<CustomerLayout />}>
           <Route index element={<Home />} />
           <Route path="products" element={<Products />} />
           <Route path="products/:id" element={<ProductDetails />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
           <Route path="profile" element={<Profile />} />
           <Route path="wishlist" element={<Wishlist />} />
           <Route path="order-success" element={<OrderSuccess />} />
         </Route>
 
-        {/* Admin Routes */}
+        {/* Admin Pages */}
         <Route path="/admin" element={
           <ProtectedRoute>
             <AdminLayout />

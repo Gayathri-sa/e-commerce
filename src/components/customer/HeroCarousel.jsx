@@ -12,32 +12,44 @@ const heroSlides = [
     image:
       "https://i.pinimg.com/1200x/84/ba/44/84ba440441f2c801eede64c5dac3107d.jpg",
     offer: "New Arrivals • Up to 50% OFF",
-    button1: "Shop Women",
+    button1: "Shop Now",
     button2: "View Collection",
   },
   {
     id: 2,
-    title: "Electronics Mega Sale Is Here!",
+    title: "Elegant Ethnic Wear for Every Occasion",
     description:
-      "Explore gadgets, laptops, and more at unbeatable discounts — limited time only.",
+      "From festive sarees to everyday kurtis — redefine your ethnic wardrobe with timeless elegance.",
     image:
       "https://i.pinimg.com/1200x/27/33/cc/2733cc86d01e2560777f51d4c592fe7a.jpg",
-    offer: "Up to 40% OFF",
-    button1: "Shop Electronics",
-    button2: "Grab Deal",
+    offer: "Festive Sale • Up to 40% OFF",
+    button1: "Explore Ethnic",
+    button2: "Shop Now",
   },
   {
     id: 3,
-    title: "Refresh Your Home With Essentials",
+    title: "Casual & Chic Styles You’ll Love",
     description:
-      "From kitchenware to décor, get everything you need for a perfect home.",
+      "Elevate your everyday look with comfy yet stylish outfits — perfect for every mood.",
     image:
-      "https://i.pinimg.com/736x/60/9f/ef/609fef376a005f2a5ba7a9663065e8ca.jpg",
-    offer: "20% OFF + Free Shipping",
-    button1: "Explore Now",
-    button2: "Shop Home",
+      "https://i.pinimg.com/736x/8e/e8/65/8ee8658e792f1287f989cda2b707f968.jpg",
+    offer: "Buy 2 Get 1 Free",
+    button1: "Shop Casuals",
+    button2: "View Looks",
+  },
+  {
+    id: 4,
+    title: "Exclusive Women's Collection 2025",
+    description:
+      "Redefine your wardrobe with luxurious fashion crafted for confidence and grace.",
+    image:
+      "https://i.pinimg.com/1200x/b7/88/94/b788945fa174b679f489fcbad3297188.jpg",
+    offer: "Limited Time • Flat 30% OFF",
+    button1: "Shop Now",
+    button2: "Discover More",
   },
 ];
+
 
 const HeroCarousel = () => {
   const navigate = useNavigate();
@@ -57,7 +69,6 @@ const HeroCarousel = () => {
         height: { xs: 500, sm: 450, md: 500 },
         overflow: "hidden",
         borderRadius: 0,
-        mb:2,
       }}
     >
       <AnimatePresence mode="wait">
@@ -118,6 +129,7 @@ const HeroCarousel = () => {
                       fontWeight: "bold",
                       mb: 2,
                       fontSize: { xs: "1.8rem", sm: "2.3rem", md: "2.8rem" },
+                      color:"#FFF"
                     }}
                   >
                     {slide.title}
@@ -130,6 +142,7 @@ const HeroCarousel = () => {
                       fontSize: { xs: "1rem", md: "1.1rem" },
                       maxWidth: 600,
                       opacity: 0.9,
+                      color:"#FFF"
                     }}
                   >
                     {slide.description}

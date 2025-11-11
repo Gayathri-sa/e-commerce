@@ -35,12 +35,12 @@ const Home = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 2 }}>
+    <Box>
 
       {/*  Hero Section */}
       <HeroCarousel />
-
       {/* Categories Section */}
+      <Box sx={{p:2}}>
       <Typography variant="h4" component="h2" sx={{ mb: 2, fontWeight: 600 }}>
         Shop by Category
       </Typography>
@@ -84,8 +84,8 @@ const Home = () => {
                     color: "white",
                   }}
                 >
-                  <Typography variant="subtitle1">{category.name}</Typography>
-                  <Typography variant="caption">
+                  <Typography variant="body1" sx={{color:'#FFF'}}>{category.name}</Typography>
+                  <Typography variant="body1" sx={{color:'#FFF'}}>
                     {category.count} products
                   </Typography>
                 </Box>
@@ -250,7 +250,8 @@ const Home = () => {
           </Grid>
         ))}
       </Grid>
-    </Container>
+      </Box>
+    </Box>
   );
 };
 

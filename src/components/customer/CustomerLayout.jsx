@@ -26,25 +26,24 @@ import {
   ArrowForwardIos as ArrowForwardIosIcon,
 } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 const sections = [
-  { label: "About", id: "about" },
-  { label: "Skills & Tools", id: "skills" },
-  { label: "Experience", id: "experience" },
-  { label: "Projects", id: "projects" },
-  { label: "Contact", id: "contact" },
+  { label: "Home", path: "/" },
+  { label: "Products", path: "/products" },
+  { label: "Wishlist", path: "/wishlist" },
+  { label: "Cart", path: "/cart" },
 ];
 
 export default function CustomerLayout() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated } = useSelector((state) => state.auth);
   const cartItems = useSelector((state) => state.cart.items);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("about");
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -58,15 +57,6 @@ export default function CustomerLayout() {
     return () => document.head.removeChild(style);
   }, []);
 
-  const handleScroll = (id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-      setActiveSection(id);
-      setMenuOpen(false);
-    }
-  };
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -76,11 +66,12 @@ export default function CustomerLayout() {
           backgroundColor: "#ffffff",
           color: "#111827",
           borderBottom: "1px solid #e5e7eb",
-          boxShadow: 'none',
+          boxShadow: "none",
           zIndex: 1201,
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 4 } }}>
+          {/* ✅ Logo */}
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <IconButton
               sx={{
@@ -114,6 +105,7 @@ export default function CustomerLayout() {
             </Typography>
           </Box>
 
+          {/* ✅ Desktop view */}
           {!isMobile && (
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Typography
@@ -121,24 +113,24 @@ export default function CustomerLayout() {
                 sx={{
                   textTransform: "none",
                   fontWeight: 500,
-                  cursor:'pointer',
+                  cursor: "pointer",
                 }}
               >
                 Products
               </Typography>
 
-              <IconButton  onClick={() => navigate("/wishlist")}>
+              <IconButton onClick={() => navigate("/wishlist")}>
                 <Favorite />
               </IconButton>
 
-              <IconButton  onClick={() => navigate("/cart")}>
+              <IconButton onClick={() => navigate("/cart")}>
                 <Badge badgeContent={cartItems.length} color="error">
                   <ShoppingCart />
                 </Badge>
               </IconButton>
 
               {isAuthenticated ? (
-                <IconButton  onClick={() => navigate("/profile")}>
+                <IconButton onClick={() => navigate("/profile")}>
                   <Person />
                 </IconButton>
               ) : (
@@ -158,6 +150,7 @@ export default function CustomerLayout() {
             </Box>
           )}
 
+          {/* ✅ Mobile Menu Button */}
           {isMobile && (
             <IconButton
               edge="end"
@@ -175,6 +168,7 @@ export default function CustomerLayout() {
           )}
         </Toolbar>
 
+        {/* ✅ Mobile Dropdown Menu */}
         {isMobile && menuOpen && (
           <Box
             sx={{
@@ -182,46 +176,58 @@ export default function CustomerLayout() {
               top: "64px",
               left: 0,
               width: "100%",
-              background: "#FFF",
-              color: "#fff",
+              background: "#ffffff",
               animation: "slideDown 0.3s ease",
               boxShadow: "0px 10px 20px rgba(0,0,0,0.4)",
               zIndex: 1200,
             }}
           >
             <List>
-              {sections.map(({ label, id }) => (
-                <ListItem key={id} disablePadding>
-                  <ListItemButton
-                    onClick={() => handleScroll(id)}
-                    sx={{
-                      mx: 2,
-                      mb: 1,
-                      borderRadius: 2,
-                      background:
-                        activeSection === id
+              {sections.map(({ label, path }) => {
+                const active = location.pathname === path;
+                return (
+                  <ListItem key={path} disablePadding>
+                    <ListItemButton
+                      onClick={() => {
+                        navigate(path);
+                        setMenuOpen(false);
+                      }}
+                      sx={{
+                        mx: 2,
+                        mb: 1,
+                        borderRadius: 2,
+                        background: active
                           ? "linear-gradient(to right, #4f46e5, #06b6d4)"
                           : "transparent",
-                      "&:hover": {
-                        background: "linear-gradient(to right, #3730a3, #2563eb)",
-                      },
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "#a5b4fc", minWidth: 32 }}>
-                      <ArrowForwardIosIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={label}
-                      primaryTypographyProps={{
-                        fontWeight: activeSection === id ? 700 : 500,
-                        color: activeSection === id ? "#fff" : "#cbd5e1",
+                        color: active ? "#fff" : "#111827",
+                        "&:hover": {
+                          background:
+                            "linear-gradient(to right, #4f46e5, #06b6d4)",
+                          color: "#fff",
+                        },
+                        transition: "all 0.3s ease",
                       }}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              ))}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          color: active ? "#fff" : "#4f46e5",
+                          minWidth: 32,
+                        }}
+                      >
+                        <ArrowForwardIosIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={label}
+                        primaryTypographyProps={{
+                          fontWeight: active ? 700 : 500,
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
 
-              <Divider sx={{ borderColor: "#1e293b", my: 1 }} />
+              <Divider sx={{ borderColor: "#e5e7eb", my: 1 }} />
 
               <ListItem disablePadding>
                 <ListItemButton
@@ -232,8 +238,7 @@ export default function CustomerLayout() {
                   sx={{
                     mx: 2,
                     borderRadius: 2,
-                    background:
-                      "linear-gradient(to right, #1e40af, #2563eb)",
+                    background: "linear-gradient(to right, #1e40af, #2563eb)",
                     "&:hover": { opacity: 0.9 },
                   }}
                 >
@@ -254,6 +259,7 @@ export default function CustomerLayout() {
         )}
       </AppBar>
 
+      {/* ✅ Keep layout aligned below AppBar */}
       <Toolbar />
       <Box component="main">
         <Outlet />
